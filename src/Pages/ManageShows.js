@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
 import Show from '../Show'
+import './ManageShows.css'
+import ReactPropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 
 export default class ManageShows extends Component {
+    static propTypes = {
+        createShow: ReactPropTypes.func.isRequired
+    }
     state = {
         show: {
             name: '',
@@ -34,19 +40,12 @@ export default class ManageShows extends Component {
     }
 
     handleOnClick = () => {
-        this.setState((prev) => {
-            const existingShows = prev.shows
-            existingShows.push(
-            {
-                    name: prev.newShowName,
-                    rating: prev.newShowRating,
-                    previewImage: prev.newShowPreviewImage
-                })
-                return{
-                    shows:existingShows
-                }
-            }
-        )
+        this.props.createShow({
+            name: this.state.newShowName,
+            rating: this.state.newShowRating,
+            previewImage: this.state.newShowPreviewImage})
+        
+ 
     }
 
     renderShows= () =>{
@@ -80,7 +79,7 @@ export default class ManageShows extends Component {
 
         // )
 
-        return this.state.shows.map((show, i) => {
+        return this.props.allShows.map((show, i) => {
             return(
                 <Show key={i} name={show.name} rating={show.rating} previewImage={show.previewImage} />
             )
@@ -91,12 +90,13 @@ export default class ManageShows extends Component {
     render() {
         // console.log("STATE", this.state)
         return (
-            <div>
+            <div className='manageShows'>
                 <section className="viewAllShows">
                     <header><h1>All Shows</h1></header>
                     <div>
                         {this.renderShows()}
                     </div>
+                    <Link to="/">View Shows</Link>
                 </section>
                 <section className="createShow">
                     <header><h1>New Show</h1></header>

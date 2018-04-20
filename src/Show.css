@@ -1,0 +1,19 @@
+article{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+
+}
+
+article img {
+    height: 50px;
+    order: 0;
+}
+.viewAllShows{
+    width: 50vw;
+}
+
+article * {
+    margin: 10px;
+}

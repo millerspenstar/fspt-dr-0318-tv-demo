@@ -1,0 +1,13 @@
+.manageShows {
+    display: flex;
+    flex-direction: row;
+    max-width: 1vw;
+}
+
+.viewAllShows{
+
+}
+
+.createShows{
+
+}
