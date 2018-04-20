@@ -2,6 +2,13 @@ import React, { Component } from 'react'
 import ReactPropTypes from 'prop-types'
 
 export default class Show extends Component {
+    static propTypes ={
+        name: ReactPropTypes.string.isRequired,
+        rating: ReactPropTypes.number.isRequired,
+        previewImage: ReactPropTypes.string.isRequired
+
+    }
+
     render() {
         return (
             <article>
