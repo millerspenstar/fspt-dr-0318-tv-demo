@@ -11,7 +11,13 @@ export default class ViewShows extends Component {
 
 
    renderShows= () => {
-       return this.props.allShows.map((show, i)=> {
+       
+       const famfriendly=this.props.allShows.filter((show)=>{
+           return show.rating <= 3  
+       })
+       console.log(famfriendly)
+    
+       return famfriendly.map((show, i)=> {
             return (<Show key={i} name={show.name} rating={show.rating} previewImage={show.previewImage}/>)
        })
    }
