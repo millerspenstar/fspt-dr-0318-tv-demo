@@ -39,23 +39,18 @@ class App extends Component {
     console.log('finished executing promise')
   }
 
-  getShows = () => {
-    fetch('http://localhost:3001/shows')
-      .then((response) => {
-        console.log("response:", response)
-        return response.json()
-          .then((shows) => {
-            console.log("jsonData", shows)
-            this.setState({ shows })
-          })
-
-      })
-      .catch((error) => {
-        console.log('this is our fail error', error)
-      })
+  getShows = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/shows')
+      const shows = await response.json()
+      this.setState({ shows })
+    }
+    catch (error) {
+      this.setState({ errorMessage: error })
+    }
   }
 
-  postShow = (showToSave) => {
+  postShow = async (showToSave) => {
     console.log(showToSave)
     const postInit = {
       method: 'POST',
@@ -65,23 +60,21 @@ class App extends Component {
       },
       body: JSON.stringify(showToSave)
     }
-    fetch('http://localhost:3001/shows', postInit)
-      .then((postResp) => {
-        return postResp.json()
-      })
-      .then((show) => {
-        this.createShow(show)
-      })
-      .catch((error) => {
-        this.setState({ errorMessage: error })
-      })
+    try {
+      const postResp = await fetch('http://localhost:3001/shows', postInit)
+      const show = await postResp.json()
+      this.createShow(show)
+    }
+      catch (error)  {
+      this.setState({ errorMessage: error })
+    }
 
 
   }
 
   renderError = () => {
-   
-   return this.state.errorMessage
+
+    return this.state.errorMessage
       ? (<div>{this.state.errorMessage.toString()})</div>)
       : (<div></div>)
   }
@@ -95,7 +88,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-        {this.renderError()}
+          {this.renderError()}
           <Switch>
             <Route exact path="/" component={() => <ViewShows allShows={this.state.shows} />} />
             <Route path="/manageShows" component={() => <ManageShows allShows={this.state.shows} createShow={this.postShow} />} />
